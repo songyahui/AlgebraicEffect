@@ -16,7 +16,7 @@ let rec take xs n
 | x :: xs' -> x :: take xs' (n - 1)
 
 let take_spec xs n
-(*@ req n>=0/\n<=length(xs) @*)
+(*@ req n>=0/\n<=length(xs); ex r; ens res=r @*)
 = take xs n
 
 let rec drop xs n
@@ -25,7 +25,7 @@ let rec drop xs n
 | x :: xs' -> drop xs' (n - 1)
 
 let drop_spec xs n
-(*@ req n>=0/\n<=length(xs) @*)
+(*@ req n>=0/\n<=length(xs); ex r; ens res=r @*)
 = drop xs n
 
 let append_take_drop xs n (* FIXME: By induction *)
@@ -34,10 +34,8 @@ let append_take_drop xs n (* FIXME: By induction *)
 
 let take_drop_append1 xs ys (* FIXME *)
 (*@ ens res=xs @*)
-(* Workaround to avoid type errors in Why3 *)
-= let n = length xs in take_spec (append xs ys) n
+= take_spec (append xs ys) (length xs)
 
 let take_drop_append2 xs ys (* FIXME *)
 (*@ ens res=ys @*)
-(* Workaround to avoid type errors in Why3 *)
-= let n = length xs in drop_spec (append xs ys) n
+= drop_spec (append xs ys) (length xs)

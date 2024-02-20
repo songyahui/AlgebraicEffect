@@ -3,11 +3,11 @@ let call_ret f =
   f 100
 
 let main_false ()
-(*@ Norm(emp, 2) @*)
+(*@ ens res=2 @*)
 = let x = ref 0 in
-  let swap i = 
-    let r = !x in 
-    x := i; 
+  let swap i =
+    let r = !x in
+    x := i;
     r
   in
   (* L1 *)
@@ -18,11 +18,11 @@ let main_false ()
   call_ret swap
 
 let main ()
-(*@ Norm(emp, 2) @*)
+(*@ ens res=2 @*)
 = let x = ref 0 in
-  let swap i = 
-    let r = !x in 
-    x := i; 
+  let swap i =
+    let r = !x in
+    x := i;
     r
   in
   (* L1 *)
@@ -33,7 +33,7 @@ let main ()
   call_ret swap
 
 let main1_false ()
-(*@ Norm(emp, 1) @*)
+(*@ ens res=1 @*)
 = let x = ref 2 in
 
   let swap i =
@@ -49,7 +49,7 @@ let main1_false ()
   1
 
 let main3_false ()
-(*@ Norm(emp, 1) @*)
+(*@ ens res=1 @*)
 = let x = ref 2 in
   assert (!x=2);
   x := !x + 1;
@@ -57,7 +57,7 @@ let main3_false ()
   1
 
 let main4_false ()
-(*@ Norm(emp, 1) @*)
+(*@ ens res=1 @*)
 = let x = ref 2 in
   assert (!x=2);
   x := 3;
