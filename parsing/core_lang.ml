@@ -480,7 +480,8 @@ let transform_str bound_names (s : structure_item) =
       | _ -> failwith (Format.asprintf "lemma %s should have function on the left" l_name)
     in
     Some (`Lem {l_name; l_params; l_left; l_right})
-  | Pstr_predicate (p_name, p_params, p_body) -> Some (`Pred {p_name; p_params; p_body})
+  | Pstr_predicate (p_name, p_params, p_body) ->
+    Some (`Pred {p_name; p_params; p_body; p_rec = (find_rec p_name)#visit_disj_spec () p_body})
   | Pstr_SL_predicate (p_sl_ex, p_sl_name, p_sl_params, p_sl_body) -> Some (`SLPred {p_sl_ex; p_sl_name; p_sl_params; p_sl_body})
 
   | Pstr_effect { peff_name; peff_kind=_; _ } ->

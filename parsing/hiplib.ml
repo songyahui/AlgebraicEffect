@@ -978,7 +978,12 @@ let process_items (strs: structure_item list) : unit =
         let body' = replaceSLPredicatesWithDef p.p_body prog.cp_sl_predicates in 
         (*print_endline ("~~~> " ^ string_of_disj_spec body');
         *)
-        let (p': pred_def) = {p_name =p.p_name; p_params = p.p_params; p_body = body'} in 
+        let (p': pred_def) = {
+          p_name = p.p_name;
+          p_params = p.p_params;
+          p_body = body';
+          p_rec = (find_rec p.p_name)#visit_disj_spec () body';
+        } in 
         bound_names, { prog with cp_predicates = SMap.add p'.p_name p' prog.cp_predicates }
 
       | Some (`SLPred p) -> 

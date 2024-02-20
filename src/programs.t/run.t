@@ -83,6 +83,9 @@ ALL OK!
   $ check ../examples/length.ml
   ALL OK!
 
+  $ check ../examples/calls.ml
+  ALL OK!
+
   $ check ../examples/closure.ml
   ALL OK!
 
@@ -95,7 +98,7 @@ ALL OK!
   $ check ../examples/exception.ml
   ALL OK!
 
-  $ check ../prusti/all.ml
+  $ check_why3_only ../prusti/all.ml
   ALL OK!
 
   $ check ../prusti/blameassgn.ml

@@ -3,7 +3,7 @@ let call_ret f =
   f 100
 
 let main_false ()
-(*@ Norm(emp, 2) @*)
+(*@ ens res=2 @*)
 = let x = ref 0 in
   let swap i = 
     let r = !x in 
@@ -18,7 +18,7 @@ let main_false ()
   call_ret swap
 
 let main ()
-(*@ Norm(emp, 2) @*)
+(*@ ens res=2 @*)
 = let x = ref 0 in
   let swap i = 
     let r = !x in 
@@ -32,8 +32,8 @@ let main ()
   (* L2: the call here is only valid after L1*)
   call_ret swap
 
-let main1_false ()
-(*@ Norm(emp, 1) @*)
+let main1 ()
+(*@ ens res=1 @*)
 = let x = ref 2 in
 
   let swap i =
@@ -48,8 +48,8 @@ let main1_false ()
   (* the function call is only valid at the first time *)
   1
 
-let main3_false ()
-(*@ Norm(emp, 1) @*)
+let main3 ()
+(*@ ens res=1 @*)
 = let x = ref 2 in
   assert (!x=2);
   x := !x + 1;
@@ -57,7 +57,7 @@ let main3_false ()
   1
 
 let main4_false ()
-(*@ Norm(emp, 1) @*)
+(*@ ens res=1 @*)
 = let x = ref 2 in
   assert (!x=2);
   x := 3;

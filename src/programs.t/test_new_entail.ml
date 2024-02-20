@@ -287,3 +287,13 @@ let call_f_in_g ()
 = let x = 3 in
   let f x = x in
   f 5
+
+let call_ret f (* ex v; f(100,v); ens res=v *) =
+  f 100
+
+let test_non_rec_pred ()
+(*@ ens res=100 @*)
+= let id i = i in
+  id 2;
+
+  call_ret id

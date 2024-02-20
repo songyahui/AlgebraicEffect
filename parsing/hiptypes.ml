@@ -290,6 +290,7 @@ type pred_def = {
   p_name: string;
   p_params: string list; (* list to ensure ordering. last param is typically a return value *)
   p_body: disj_spec;
+  p_rec: bool;
 }
 
 type sl_pred_def = {
