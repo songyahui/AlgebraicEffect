@@ -1,0 +1,11 @@
+
+module Extras
+
+  use int.Int
+
+  let rec ghost function fib (n: int) : int
+  requires { n >= 0 }
+  variant { n }
+  = if n <= 1 then n
+    else fib (n - 1) + fib (n - 2)
+  end
