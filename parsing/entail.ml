@@ -587,8 +587,9 @@ and try_other_measures :
       (c1, res)
     with
     | Some (c1, def)
+      (* always allow unfolding of non-recursive predicates *)
       when List.length (List.filter (fun s -> s = (c1, `Left)) ctx.unfolded)
-           < unfolding_bound ->
+           < unfolding_bound || not def.p_rec ->
       let unf = unfold_predicate_norm "left" def s1 in
       let@ s1_1, ctx =
         all_state ~name:(Format.asprintf "unfold lhs: %s" c1)~to_s:string_of_normalisedStagedSpec ~init:ctx ~pivot:(fun c -> { ctx with subsumption_obl = c.subsumption_obl }) unf
@@ -607,8 +608,9 @@ and try_other_measures :
          (c2, res)
        with
       | Some (c2, pred_def)
+       (* always allow unfolding of non-recursive predicates *)
         when List.length (List.filter (fun s -> s = (c2, `Right)) ctx.unfolded)
-             < unfolding_bound ->
+             < unfolding_bound || not pred_def.p_rec ->
         let unf = unfold_predicate_norm "right" pred_def s2 in
         let@ s2_1 =
           any ~name:(Format.asprintf "unfold rhs: %s" c2)~to_s:string_of_normalisedStagedSpec unf
@@ -912,8 +914,12 @@ let derive_predicate m_name m_params disj =
     List.map (fun (effs, (vs, pre, (p, h))) -> (effs, (vs, pre, (p, h)))) norm
     |> List.map normalisedStagedSpec2Spec
   in
-  let res =
-    { p_name = m_name; p_params = m_params @ ["res"] ; p_body = new_spec } (* ASK Darius *)
+  let res = {
+    p_name = m_name;
+    p_params = m_params @ ["res"];
+    p_body = new_spec;
+    p_rec = (find_rec m_name)#visit_disj_spec () new_spec
+  } (* ASK Darius *)
   in
   debug ~at:2
     ~title:(Format.asprintf "derive predicate %s" m_name)
